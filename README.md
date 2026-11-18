@@ -38,3 +38,42 @@ O sistema foi modelado seguindo uma arquitetura relacional RESTful, focado no do
 1. **Alexandre de Paula Carvalho** — RA: 2840482423027
 2. **Ana Beatriz Baldivia Portas** — RA: 2840482423002
 3. **Lídia da Rocha Arruda** — RA: 2840482423022
+
+---
+
+## Metodologia e Arquitetura SDD (Spec-Driven Development)
+
+O desenvolvimento segue o fluxo **Spec-Driven Development (SDD)**, mantendo o contrato OpenAPI como fonte única da verdade e evoluindo para persistência **SQLAlchemy 2.0 + SQLite (`petegato.db`)** e **Autenticação JWT HS256 / RBAC**:
+
+- **`Módulo predefinido.openapi.json`**: Contrato formal OpenAPI 3.0.1 contendo as 11 coleções, schemas, enums, validações (`pattern`, `maxLength`, `minimum`) e respostas padronizadas (`ErrorResponse`).
+- **`SPEC.md`**: Especificação de negócio, regras de integridade referencial, seed inicial, persistência ORM e política de autenticação JWT.
+- **`STYLEGUIDE.md`**: Constituição técnica definindo stack (Python 3.12+, FastAPI, Pydantic v2, SQLAlchemy 2.0, pytest), convenções `snake_case`, árvore de diretórios e tratamento de erros.
+- **`AGENTS.md`**: Governança de personas (`[Tech Lead]`, `[Backend Coder]`, `[QA Engineer]`) e regras anti-vibe-coding.
+- **`PLAN.md`**: Checklist sequencial e granular das 9 fases de implementação, evolução e verificação.
+
+---
+
+## Instalação, Execução e Testes
+
+### 1. Instalar dependências
+
+```bash
+pip install -r src/api/requirements.txt
+```
+
+### 2. Executar a API
+
+```bash
+uvicorn src.api.main:app --reload
+```
+
+Acesse a documentação interativa em `http://127.0.0.1:8000/docs`.
+
+- Consultas (`GET`) e cadastro inicial (`POST /api/v1/usuarios`) são públicos.
+- Operações de escrita/exclusão (`POST`, `PUT`, `DELETE`) exigem token JWT obtido em `POST /api/v1/auth/login` (ex.: `juliana.santos@petegato.com` / `Vet@2026Pass`).
+
+### 3. Executar a suíte de testes
+
+```bash
+python -m pytest -v src/api/tests
+```
