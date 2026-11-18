@@ -1,0 +1,3139 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Módulo predefinido",
+    "description": "API REST para o sistema de gestão da clínica veterinária Pet & Gatô, baseada no modelo relacional DDL (Oracle SQL Developer). Inclui gestão de usuários, funcionários (veterinários e recepção), tutores, animais, agendamentos, prontuários, atendimentos, vacinações, internações e plantões.\n",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Usuários"
+    },
+    {
+      "name": "Veterinários"
+    },
+    {
+      "name": "Recepção"
+    },
+    {
+      "name": "Tutores"
+    },
+    {
+      "name": "Animais"
+    },
+    {
+      "name": "Prontuários"
+    },
+    {
+      "name": "Agendamentos"
+    },
+    {
+      "name": "Atendimentos"
+    },
+    {
+      "name": "Vacinações"
+    },
+    {
+      "name": "Internações"
+    },
+    {
+      "name": "Plantões"
+    }
+  ],
+  "paths": {
+    "/api/v1/usuarios": {
+      "get": {
+        "summary": "Listar usuarios paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de usuarios.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuarioResponse"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em usuarios",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo usuarios no sistema.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/usuarios/{id_usuario}": {
+      "get": {
+        "summary": "Obter detalhes de usuarios por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de usuarios com base no identificador.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "description": "Identificador único (id_usuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar usuarios por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de usuarios.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "description": "Identificador único (id_usuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover usuarios por ID",
+        "deprecated": false,
+        "description": "Remove o registro de usuarios do sistema.",
+        "tags": [
+          "Usuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "path",
+            "description": "Identificador único (id_usuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/veterinarios": {
+      "get": {
+        "summary": "Listar veterinarios paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de veterinarios.",
+        "tags": [
+          "Veterinários"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Veterinario"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em veterinarios",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo veterinarios no sistema.",
+        "tags": [
+          "Veterinários"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veterinario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veterinario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/veterinarios/{crmv}": {
+      "get": {
+        "summary": "Obter detalhes de veterinarios por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de veterinarios com base no identificador.",
+        "tags": [
+          "Veterinários"
+        ],
+        "parameters": [
+          {
+            "name": "crmv",
+            "in": "path",
+            "description": "Identificador único (crmv)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veterinario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar veterinarios por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de veterinarios.",
+        "tags": [
+          "Veterinários"
+        ],
+        "parameters": [
+          {
+            "name": "crmv",
+            "in": "path",
+            "description": "Identificador único (crmv)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Veterinario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Veterinario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover veterinarios por ID",
+        "deprecated": false,
+        "description": "Remove o registro de veterinarios do sistema.",
+        "tags": [
+          "Veterinários"
+        ],
+        "parameters": [
+          {
+            "name": "crmv",
+            "in": "path",
+            "description": "Identificador único (crmv)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/recepcao": {
+      "get": {
+        "summary": "Listar recepcao paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de recepcao.",
+        "tags": [
+          "Recepção"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Recepcao"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em recepcao",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo recepcao no sistema.",
+        "tags": [
+          "Recepção"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recepcao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recepcao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/recepcao/{matricula}": {
+      "get": {
+        "summary": "Obter detalhes de recepcao por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de recepcao com base no identificador.",
+        "tags": [
+          "Recepção"
+        ],
+        "parameters": [
+          {
+            "name": "matricula",
+            "in": "path",
+            "description": "Identificador único (matricula)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recepcao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar recepcao por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de recepcao.",
+        "tags": [
+          "Recepção"
+        ],
+        "parameters": [
+          {
+            "name": "matricula",
+            "in": "path",
+            "description": "Identificador único (matricula)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recepcao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recepcao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover recepcao por ID",
+        "deprecated": false,
+        "description": "Remove o registro de recepcao do sistema.",
+        "tags": [
+          "Recepção"
+        ],
+        "parameters": [
+          {
+            "name": "matricula",
+            "in": "path",
+            "description": "Identificador único (matricula)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/tutores": {
+      "get": {
+        "summary": "Listar tutores paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de tutores.",
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tutor"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em tutores",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo tutores no sistema.",
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tutor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tutor"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/tutores/{id_tutor}": {
+      "get": {
+        "summary": "Obter detalhes de tutores por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de tutores com base no identificador.",
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "id_tutor",
+            "in": "path",
+            "description": "Identificador único (id_tutor)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tutor"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar tutores por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de tutores.",
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "id_tutor",
+            "in": "path",
+            "description": "Identificador único (id_tutor)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tutor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tutor"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover tutores por ID",
+        "deprecated": false,
+        "description": "Remove o registro de tutores do sistema.",
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "id_tutor",
+            "in": "path",
+            "description": "Identificador único (id_tutor)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/animais": {
+      "get": {
+        "summary": "Listar animais paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de animais.",
+        "tags": [
+          "Animais"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Animal"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em animais",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo animais no sistema.",
+        "tags": [
+          "Animais"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Animal"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Animal"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/animais/{id_animal}": {
+      "get": {
+        "summary": "Obter detalhes de animais por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de animais com base no identificador.",
+        "tags": [
+          "Animais"
+        ],
+        "parameters": [
+          {
+            "name": "id_animal",
+            "in": "path",
+            "description": "Identificador único (id_animal)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Animal"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar animais por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de animais.",
+        "tags": [
+          "Animais"
+        ],
+        "parameters": [
+          {
+            "name": "id_animal",
+            "in": "path",
+            "description": "Identificador único (id_animal)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Animal"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Animal"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover animais por ID",
+        "deprecated": false,
+        "description": "Remove o registro de animais do sistema.",
+        "tags": [
+          "Animais"
+        ],
+        "parameters": [
+          {
+            "name": "id_animal",
+            "in": "path",
+            "description": "Identificador único (id_animal)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/prontuarios": {
+      "get": {
+        "summary": "Listar prontuarios paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de prontuarios.",
+        "tags": [
+          "Prontuários"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Prontuario"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em prontuarios",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo prontuarios no sistema.",
+        "tags": [
+          "Prontuários"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Prontuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prontuario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/prontuarios/{id_prontuario}": {
+      "get": {
+        "summary": "Obter detalhes de prontuarios por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de prontuarios com base no identificador.",
+        "tags": [
+          "Prontuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_prontuario",
+            "in": "path",
+            "description": "Identificador único (id_prontuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prontuario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar prontuarios por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de prontuarios.",
+        "tags": [
+          "Prontuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_prontuario",
+            "in": "path",
+            "description": "Identificador único (id_prontuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Prontuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prontuario"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover prontuarios por ID",
+        "deprecated": false,
+        "description": "Remove o registro de prontuarios do sistema.",
+        "tags": [
+          "Prontuários"
+        ],
+        "parameters": [
+          {
+            "name": "id_prontuario",
+            "in": "path",
+            "description": "Identificador único (id_prontuario)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/agendamentos": {
+      "get": {
+        "summary": "Listar agendamentos paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de agendamentos.",
+        "tags": [
+          "Agendamentos"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Agendamento"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em agendamentos",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo agendamentos no sistema.",
+        "tags": [
+          "Agendamentos"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Agendamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agendamento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/agendamentos/{id_agendamento}": {
+      "get": {
+        "summary": "Obter detalhes de agendamentos por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de agendamentos com base no identificador.",
+        "tags": [
+          "Agendamentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_agendamento",
+            "in": "path",
+            "description": "Identificador único (id_agendamento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agendamento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar agendamentos por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de agendamentos.",
+        "tags": [
+          "Agendamentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_agendamento",
+            "in": "path",
+            "description": "Identificador único (id_agendamento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Agendamento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agendamento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover agendamentos por ID",
+        "deprecated": false,
+        "description": "Remove o registro de agendamentos do sistema.",
+        "tags": [
+          "Agendamentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_agendamento",
+            "in": "path",
+            "description": "Identificador único (id_agendamento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/atendimentos": {
+      "get": {
+        "summary": "Listar atendimentos paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de atendimentos.",
+        "tags": [
+          "Atendimentos"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Atendimento"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em atendimentos",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo atendimentos no sistema.",
+        "tags": [
+          "Atendimentos"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Atendimento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atendimento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/atendimentos/{id_atendimento}": {
+      "get": {
+        "summary": "Obter detalhes de atendimentos por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de atendimentos com base no identificador.",
+        "tags": [
+          "Atendimentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_atendimento",
+            "in": "path",
+            "description": "Identificador único (id_atendimento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atendimento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar atendimentos por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de atendimentos.",
+        "tags": [
+          "Atendimentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_atendimento",
+            "in": "path",
+            "description": "Identificador único (id_atendimento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Atendimento"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atendimento"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover atendimentos por ID",
+        "deprecated": false,
+        "description": "Remove o registro de atendimentos do sistema.",
+        "tags": [
+          "Atendimentos"
+        ],
+        "parameters": [
+          {
+            "name": "id_atendimento",
+            "in": "path",
+            "description": "Identificador único (id_atendimento)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/vacinacoes": {
+      "get": {
+        "summary": "Listar vacinacoes paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de vacinacoes.",
+        "tags": [
+          "Vacinações"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vacinacao"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em vacinacoes",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo vacinacoes no sistema.",
+        "tags": [
+          "Vacinações"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vacinacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vacinacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/vacinacoes/{id_vacinacao}": {
+      "get": {
+        "summary": "Obter detalhes de vacinacoes por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de vacinacoes com base no identificador.",
+        "tags": [
+          "Vacinações"
+        ],
+        "parameters": [
+          {
+            "name": "id_vacinacao",
+            "in": "path",
+            "description": "Identificador único (id_vacinacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vacinacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar vacinacoes por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de vacinacoes.",
+        "tags": [
+          "Vacinações"
+        ],
+        "parameters": [
+          {
+            "name": "id_vacinacao",
+            "in": "path",
+            "description": "Identificador único (id_vacinacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vacinacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vacinacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover vacinacoes por ID",
+        "deprecated": false,
+        "description": "Remove o registro de vacinacoes do sistema.",
+        "tags": [
+          "Vacinações"
+        ],
+        "parameters": [
+          {
+            "name": "id_vacinacao",
+            "in": "path",
+            "description": "Identificador único (id_vacinacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/internacoes": {
+      "get": {
+        "summary": "Listar internacoes paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de internacoes.",
+        "tags": [
+          "Internações"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Internacao"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em internacoes",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo internacoes no sistema.",
+        "tags": [
+          "Internações"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Internacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Internacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/internacoes/{id_internacao}": {
+      "get": {
+        "summary": "Obter detalhes de internacoes por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de internacoes com base no identificador.",
+        "tags": [
+          "Internações"
+        ],
+        "parameters": [
+          {
+            "name": "id_internacao",
+            "in": "path",
+            "description": "Identificador único (id_internacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Internacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar internacoes por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de internacoes.",
+        "tags": [
+          "Internações"
+        ],
+        "parameters": [
+          {
+            "name": "id_internacao",
+            "in": "path",
+            "description": "Identificador único (id_internacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Internacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Internacao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover internacoes por ID",
+        "deprecated": false,
+        "description": "Remove o registro de internacoes do sistema.",
+        "tags": [
+          "Internações"
+        ],
+        "parameters": [
+          {
+            "name": "id_internacao",
+            "in": "path",
+            "description": "Identificador único (id_internacao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/plantoes": {
+      "get": {
+        "summary": "Listar plantoes paginados",
+        "deprecated": false,
+        "description": "Retorna uma lista paginada de registros de plantoes.",
+        "tags": [
+          "Plantões"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página atual (1-indexed)",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Quantidade máxima de itens por página",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coleção recuperada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plantao"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Criar novo registro em plantoes",
+        "deprecated": false,
+        "description": "Cadastra um novo recurso do tipo plantoes no sistema.",
+        "tags": [
+          "Plantões"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plantao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Recurso criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plantao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/plantoes/{id_plantao}": {
+      "get": {
+        "summary": "Obter detalhes de plantoes por ID",
+        "deprecated": false,
+        "description": "Retorna os dados detalhados de um registro específico de plantoes com base no identificador.",
+        "tags": [
+          "Plantões"
+        ],
+        "parameters": [
+          {
+            "name": "id_plantao",
+            "in": "path",
+            "description": "Identificador único (id_plantao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes localizados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plantao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "Atualizar plantoes por ID",
+        "deprecated": false,
+        "description": "Atualiza integralmente os dados de um registro existente de plantoes.",
+        "tags": [
+          "Plantões"
+        ],
+        "parameters": [
+          {
+            "name": "id_plantao",
+            "in": "path",
+            "description": "Identificador único (id_plantao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plantao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recurso atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plantao"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableEntity",
+            "description": "Erro de validação semântica nos campos informados."
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Remover plantoes por ID",
+        "deprecated": false,
+        "description": "Remove o registro de plantoes do sistema.",
+        "tags": [
+          "Plantões"
+        ],
+        "parameters": [
+          {
+            "name": "id_plantao",
+            "in": "path",
+            "description": "Identificador único (id_plantao)",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Registro removido com êxito (sem conteúdo no corpo).",
+            "headers": {}
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound",
+            "description": "Recurso não encontrado."
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "required": [
+          "page",
+          "limit",
+          "totalItems",
+          "totalPages",
+          "hasNext"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "minimum": 1,
+            "maximum": 100,
+            "example": 10
+          },
+          "totalItems": {
+            "type": "integer",
+            "example": 42
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 5
+          },
+          "hasNext": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "description": "Especificação de erro padronizada conforme RFC 9457 / RFC 7807 (Problem Details)",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail",
+          "instance"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://api.taskflow.dev/errors/validation-error"
+          },
+          "title": {
+            "type": "string",
+            "example": "Erro de Validação Semântica"
+          },
+          "status": {
+            "type": "integer",
+            "example": 422
+          },
+          "detail": {
+            "type": "string",
+            "example": "O campo 'title' é obrigatório e deve possuir no mínimo 3 caracteres."
+          },
+          "instance": {
+            "type": "string",
+            "example": "/api/v1/tasks"
+          },
+          "invalidParams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "title"
+                },
+                "reason": {
+                  "type": "string",
+                  "example": "Tamanho inferior a 3 caracteres"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Prontuario": {
+        "type": "object",
+        "description": "Modelo de dados contendo o histórico clínico de atendimento do animal.",
+        "required": [
+          "id_prontuario",
+          "crmv",
+          "id_animal",
+          "peso_atual",
+          "queixa",
+          "diagnostico"
+        ],
+        "properties": {
+          "id_prontuario": {
+            "type": "integer",
+            "description": "Identificador único do prontuário médico.",
+            "example": 1001
+          },
+          "crmv": {
+            "type": "integer",
+            "description": "CRMV do veterinário responsável pela abertura do prontuário.",
+            "example": 12345
+          },
+          "id_animal": {
+            "type": "integer",
+            "description": "Identificador do animal paciente.",
+            "example": 501
+          },
+          "data_abertura": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de criação do prontuário (padrão carimbo de tempo atual)."
+          },
+          "peso_atual": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0.01,
+            "description": "Peso atual do animal em quilogramas (precisão de duas casas decimais, maior que zero).",
+            "example": 4.35
+          },
+          "queixa": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Relato principal do tutor sobre o estado de saúde do animal.",
+            "example": "Falta de apetite e letargia há 2 dias."
+          },
+          "anamnese": {
+            "type": "string",
+            "description": "Histórico médico detalhado e avaliação clínica prévia.",
+            "nullable": true
+          },
+          "diagnostico": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Conclusão médica ou diagnóstico provisório.",
+            "example": "Gastrite leve por mudança de ração"
+          },
+          "receita": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Prescrição de medicamentos e orientações terapêuticas.",
+            "nullable": true,
+            "example": "Omeprazol 10mg SID por 7 dias"
+          },
+          "vacina": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Informações sobre vacinas aplicadas durante o atendimento.",
+            "nullable": true,
+            "example": "Nenhuma administrada na consulta"
+          }
+        }
+      },
+      "StatusAgendamento": {
+        "type": "string",
+        "description": "Estados possíveis para o fluxo de agendamento de consultas.",
+        "enum": [
+          "Agendado",
+          "Em espera",
+          "Em atendimento",
+          "Concluido",
+          "Cancelado"
+        ]
+      },
+      "Veterinario": {
+        "type": "object",
+        "description": "Modelo de dados para representação de um médico veterinário.",
+        "required": [
+          "crmv",
+          "cnpj",
+          "especialidade",
+          "id_usuario"
+        ],
+        "properties": {
+          "crmv": {
+            "type": "integer",
+            "description": "Número de registro no Conselho Regional de Medicina Veterinária (Chave Primária).",
+            "example": 12345
+          },
+          "cnpj": {
+            "type": "string",
+            "maxLength": 18,
+            "pattern": "^[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}$",
+            "description": "CNPJ formatado do consultório ou profissional.",
+            "example": "12.345.678/0001-90"
+          },
+          "especialidade": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Área de especialização médica veterinária.",
+            "example": "Felinos e Clínica Médica"
+          },
+          "id_usuario": {
+            "type": "integer",
+            "description": "Chave estrangeira vinculada ao ID do usuário na tabela de usuários.",
+            "example": 1
+          }
+        }
+      },
+      "UsuarioCreate": {
+        "type": "object",
+        "description": "DTO para criação de um novo usuário do sistema.",
+        "required": [
+          "id_usuario",
+          "nome_usuario",
+          "email_usuario",
+          "senha",
+          "perfil"
+        ],
+        "properties": {
+          "id_usuario": {
+            "type": "integer",
+            "description": "Identificador único numérico do usuário.",
+            "example": 1
+          },
+          "nome_usuario": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Nome completo do usuário.",
+            "example": "Dra. Juliana Santos"
+          },
+          "email_usuario": {
+            "type": "string",
+            "maxLength": 50,
+            "pattern": "^[A-Za-z0-9._%+-]+@petegato\\.com$",
+            "description": "E-mail corporativo válido com o domínio @petegato.com.",
+            "example": "juliana.santos@petegato.com"
+          },
+          "senha": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 50,
+            "pattern": "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,50}$",
+            "description": "Senha segura contendo ao menos uma letra maiúscula, uma minúscula, um número e um caractere especial.",
+            "writeOnly": true,
+            "example": "Vet@2026Pass"
+          },
+          "perfil": {
+            "type": "string",
+            "maxLength": 11,
+            "enum": [
+              "Recepcao",
+              "Veterinario"
+            ],
+            "description": "Papel ou perfil de acesso do usuário no sistema.",
+            "example": "Veterinario"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Schema padronizado para retorno de erros na API da clínica veterinária.",
+        "required": [
+          "mensagem",
+          "detalhes"
+        ],
+        "properties": {
+          "mensagem": {
+            "type": "string",
+            "description": "Resumo descritivo do erro ocorrido.",
+            "example": "Erro na requisição"
+          },
+          "detalhes": {
+            "type": "string",
+            "description": "Explicação detalhada sobre a causa raiz do erro.",
+            "example": "O campo 'nome_tutor' é obrigatório e não foi informado."
+          }
+        }
+      },
+      "UsuarioResponse": {
+        "type": "object",
+        "description": "Representação pública de dados de um usuário cadastrado.",
+        "required": [
+          "id_usuario",
+          "nome_usuario",
+          "email_usuario",
+          "perfil"
+        ],
+        "properties": {
+          "id_usuario": {
+            "type": "integer",
+            "description": "Identificador único numérico do usuário.",
+            "example": 1
+          },
+          "nome_usuario": {
+            "type": "string",
+            "description": "Nome completo do usuário.",
+            "example": "Dra. Juliana Santos"
+          },
+          "email_usuario": {
+            "type": "string",
+            "description": "E-mail corporativo do usuário.",
+            "example": "juliana.santos@petegato.com"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "Recepcao",
+              "Veterinario"
+            ],
+            "description": "Perfil de acesso do usuário.",
+            "example": "Veterinario"
+          }
+        }
+      },
+      "Recepcao": {
+        "type": "object",
+        "description": "Modelo de dados para funcionários do setor de recepção.",
+        "required": [
+          "matricula",
+          "cpf_recepcao",
+          "id_usuario"
+        ],
+        "properties": {
+          "matricula": {
+            "type": "integer",
+            "description": "Matrícula funcional interna (Chave Primária).",
+            "example": 1010
+          },
+          "cpf_recepcao": {
+            "type": "string",
+            "maxLength": 14,
+            "pattern": "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}$",
+            "description": "CPF formatado do atendente de recepção.",
+            "example": "123.456.789-00"
+          },
+          "id_usuario": {
+            "type": "integer",
+            "description": "Chave estrangeira vinculada ao ID do usuário correspondente.",
+            "example": 2
+          }
+        }
+      },
+      "Tutor": {
+        "type": "object",
+        "description": "Modelo de dados para tutores ou responsáveis legais pelos animais.",
+        "required": [
+          "id_tutor",
+          "nome_tutor",
+          "cpf_tutor"
+        ],
+        "properties": {
+          "id_tutor": {
+            "type": "integer",
+            "description": "Identificador único numérico do tutor.",
+            "example": 1
+          },
+          "nome_tutor": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Nome completo do tutor.",
+            "example": "Carlos Eduardo Lima"
+          },
+          "cpf_tutor": {
+            "type": "string",
+            "maxLength": 14,
+            "pattern": "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}$",
+            "description": "CPF formatado do tutor.",
+            "example": "987.654.321-11"
+          },
+          "email_tutor": {
+            "type": "string",
+            "maxLength": 50,
+            "pattern": "^[A-Za-z0-9._%+-]+@[a-z]+\\.[a-z.]{2,}$",
+            "description": "E-mail de contato do tutor.",
+            "nullable": true,
+            "example": "carlos.edu@gmail.com"
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 15,
+            "description": "Número de telefone ou celular para contato.",
+            "nullable": true,
+            "example": "(11) 98765-4321"
+          },
+          "observacoes": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Observações gerais sobre o comportamento ou preferências do tutor.",
+            "nullable": true,
+            "example": "Prefere contato por mensagem de texto."
+          }
+        }
+      },
+      "Animal": {
+        "type": "object",
+        "description": "Modelo de dados para os pacientes (animais) atendidos na clínica.",
+        "required": [
+          "id_animal",
+          "id_tutor",
+          "tipo_animal",
+          "raca"
+        ],
+        "properties": {
+          "id_animal": {
+            "type": "integer",
+            "description": "Identificador único do animal/paciente.",
+            "example": 501
+          },
+          "id_tutor": {
+            "type": "integer",
+            "description": "Chave estrangeira apontando para o tutor responsável.",
+            "example": 1
+          },
+          "nome_animal": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Nome de registro ou de chamada do animal.",
+            "nullable": true,
+            "example": "Mingau"
+          },
+          "tipo_animal": {
+            "type": "string",
+            "maxLength": 15,
+            "description": "Espécie do animal (ex: Gato, Cachorro, Ave).",
+            "example": "Gato"
+          },
+          "raca": {
+            "type": "string",
+            "maxLength": 35,
+            "description": "Raça predominante do animal.",
+            "example": "Siamês"
+          },
+          "sexo": {
+            "type": "string",
+            "maxLength": 1,
+            "enum": [
+              "F",
+              "M"
+            ],
+            "description": "Sexo biológico do animal (F para Fêmea, M para Macho).",
+            "nullable": true,
+            "example": "M"
+          },
+          "data_nascimento": {
+            "type": "string",
+            "format": "date",
+            "description": "Data de nascimento estimada ou exata do animal (Formato YYYY-MM-DD).",
+            "nullable": true,
+            "example": "2021-06-15"
+          }
+        }
+      },
+      "Agendamento": {
+        "type": "object",
+        "description": "Registro de marcação de consulta ou atendimento para um animal.",
+        "required": [
+          "id_agendamento",
+          "hora_agendamento",
+          "id_animal",
+          "crmv",
+          "matricula"
+        ],
+        "properties": {
+          "id_agendamento": {
+            "type": "integer",
+            "description": "Identificador único do agendamento.",
+            "example": 100
+          },
+          "hora_agendamento": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e horário planejados para a consulta.",
+            "example": "2026-10-05T14:30:00Z"
+          },
+          "id_animal": {
+            "type": "integer",
+            "description": "Chave estrangeira do animal agendado.",
+            "example": 501
+          },
+          "crmv": {
+            "type": "integer",
+            "description": "CRMV do veterinário escalado.",
+            "example": 12345
+          },
+          "matricula": {
+            "type": "integer",
+            "description": "Matrícula do recepcionista que efetuou a marcação.",
+            "example": 1010
+          },
+          "status_agendamento": {
+            "$ref": "#/components/schemas/StatusAgendamento",
+            "description": "Status atual do agendamento.",
+            "default": "Agendado"
+          }
+        }
+      },
+      "Atendimento": {
+        "type": "object",
+        "description": "Registro de execução efetiva de um atendimento clínico vinculado a um prontuário.",
+        "required": [
+          "id_atendimento",
+          "id_prontuario"
+        ],
+        "properties": {
+          "id_atendimento": {
+            "type": "integer",
+            "description": "Identificador único do atendimento.",
+            "example": 8001
+          },
+          "id_prontuario": {
+            "type": "integer",
+            "description": "Chave estrangeira apontando para o prontuário correspondente.",
+            "example": 1001
+          },
+          "hora_atendimento": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Horário exato de início ou registro do atendimento.",
+            "example": "2026-10-05T14:35:10Z"
+          }
+        }
+      },
+      "Vacinacao": {
+        "type": "object",
+        "description": "Registro de aplicação de vacinas em pacientes.",
+        "required": [
+          "id_vacinacao",
+          "data_aplicacao",
+          "crmv",
+          "id_prontuario",
+          "nome_vacina",
+          "lote_vacina"
+        ],
+        "properties": {
+          "id_vacinacao": {
+            "type": "integer",
+            "description": "Identificador único do registro de vacinação.",
+            "example": 1
+          },
+          "data_aplicacao": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora em que a vacina foi administrada.",
+            "example": "2026-10-05T15:00:00Z"
+          },
+          "crmv": {
+            "type": "integer",
+            "description": "CRMV do veterinário responsável pela aplicação.",
+            "example": 12345
+          },
+          "id_prontuario": {
+            "type": "integer",
+            "description": "Prontuário associado à aplicação.",
+            "example": 1001
+          },
+          "nome_vacina": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Nome comercial ou tipo da vacina.",
+            "example": "V4 Felina"
+          },
+          "lote_vacina": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Número de lote do imunizante.",
+            "example": "LOTE-99882B"
+          },
+          "data_proxima_dose": {
+            "type": "string",
+            "format": "date",
+            "description": "Data recomendada para o reforço ou próxima dose.",
+            "nullable": true,
+            "example": "2027-10-05"
+          }
+        }
+      },
+      "NivelGravidade": {
+        "type": "string",
+        "description": "Classificação de risco ou gravidade clínica do paciente.",
+        "enum": [
+          "Baixa",
+          "Medio",
+          "Alta",
+          "Critica"
+        ]
+      },
+      "StatusInternacao": {
+        "type": "string",
+        "description": "Estado atual da internação hospitalar do animal.",
+        "enum": [
+          "Internado",
+          "Alta",
+          "Obito"
+        ]
+      },
+      "Internacao": {
+        "type": "object",
+        "description": "Registro de internação clínica ou cirúrgica do animal.",
+        "required": [
+          "id_internacao",
+          "id_animal",
+          "crmv"
+        ],
+        "properties": {
+          "id_internacao": {
+            "type": "integer",
+            "description": "Identificador único da internação.",
+            "example": 4001
+          },
+          "id_animal": {
+            "type": "integer",
+            "description": "ID do animal internado.",
+            "example": 501
+          },
+          "crmv": {
+            "type": "integer",
+            "description": "CRMV do veterinário supervisor da internação.",
+            "example": 12345
+          },
+          "data_internacao": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de entrada na ala de internação."
+          },
+          "data_alta": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora da alta hospitalar ou óbito.",
+            "nullable": true
+          },
+          "nivel_gravidade": {
+            "$ref": "#/components/schemas/NivelGravidade",
+            "description": "Grau de criticidade do estado de saúde do paciente.",
+            "nullable": true
+          },
+          "status_internacao": {
+            "$ref": "#/components/schemas/StatusInternacao",
+            "description": "Status atual da internação.",
+            "default": "Internado"
+          },
+          "evolucao_internacao": {
+            "type": "string",
+            "description": "Notas contínuas de evolução clínica e procedimentos realizados.",
+            "nullable": true
+          }
+        }
+      },
+      "StatusPlantao": {
+        "type": "string",
+        "description": "Status dos atendimentos realizados durante plantões ou emergências.",
+        "enum": [
+          "Em analise",
+          "Internado",
+          "Alta",
+          "Obito"
+        ]
+      },
+      "Plantao": {
+        "type": "object",
+        "description": "Registro de atendimento de urgência ou emergência (plantão).",
+        "required": [
+          "id_plantao",
+          "crmv"
+        ],
+        "properties": {
+          "id_plantao": {
+            "type": "integer",
+            "description": "Identificador único do plantão/atendimento de urgência.",
+            "example": 3001
+          },
+          "id_animal": {
+            "type": "integer",
+            "description": "ID do animal (pode ser nulo caso o paciente ainda não esteja cadastrado na chegada).",
+            "nullable": true,
+            "example": 501
+          },
+          "id_tutor": {
+            "type": "integer",
+            "description": "ID do tutor (pode ser nulo em casos de resgate sem tutor imediato).",
+            "nullable": true,
+            "example": 1
+          },
+          "crmv": {
+            "type": "integer",
+            "description": "CRMV do médico veterinário plantonista.",
+            "example": 12345
+          },
+          "chegada_plantao": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de entrada do paciente no plantão de urgência."
+          },
+          "status_plantao": {
+            "$ref": "#/components/schemas/StatusPlantao",
+            "description": "Estado clínico atual no plantão.",
+            "default": "Em analise"
+          },
+          "evolucao_plantao": {
+            "type": "string",
+            "description": "Observações e relatos de urgência realizados pelo plantonista.",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "400BadRequest": {
+        "description": "Requisição inválida ou violação de integridade/validação.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "404NotFound": {
+        "description": "Recurso não encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "422UnprocessableEntity": {
+        "description": "Erro de validação semântica nos campos informados.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}
